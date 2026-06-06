@@ -1,0 +1,9 @@
+package com.ute.app.data.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class LoginResponse(
+    val token: String,
+    val is_staff: Boolean // Coincide perfectamente con los booleanos de usuarios en Django
+)
