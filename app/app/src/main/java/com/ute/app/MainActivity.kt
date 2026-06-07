@@ -30,9 +30,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val loginViewModel: LoginViewModel = viewModel()
 
-                // Estados globales de sesión
                 var authToken by remember { mutableStateOf("") }
-                var isStaff by remember { mutableStateOf(false) } // 👈 Control de acceso
+                var isStaff by remember { mutableStateOf(false) }
 
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
@@ -133,8 +132,44 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        // Las rutas de edición/registro/detalle se mantienen igual...
-                        // (Asegúrate de agregar aquí el resto de tus rutas de registro/edición)
+                        composable("detalle_propiedad") {
+                            val prop = navController.previousBackStackEntry?.savedStateHandle?.get<Propiedad>("propiedad_seleccionada")
+                            if (prop != null) {
+                                DetallePropiedadScreen(propiedad = prop, onBackClick = { navController.popBackStack() })
+                            }
+                        }
+
+                        composable("editar_propiedad") {
+                            val prop = navController.previousBackStackEntry?.savedStateHandle?.get<Propiedad>("propiedad_a_editar")
+                            if (prop != null) {
+                                EditarPropiedadScreen(viewModel = viewModel(), propiedadAEditar = prop, token = authToken, onBackClick = { navController.popBackStack() })
+                            }
+                        }
+
+                        // --- REGISTRO ---
+                        composable("registrar_propiedad") { CrearPropiedadScreen(viewModel = viewModel(), token = authToken, onBackClick = { navController.popBackStack() }) }
+                        composable("registrar_agente") { CrearAgenteScreen(viewModel = viewModel(), token = authToken, onBackClick = { navController.popBackStack() }) }
+                        composable("registrar_cliente") { CrearClienteScreen(viewModel = viewModel(), token = authToken, onBackClick = { navController.popBackStack() }) }
+                        composable("registrar_zona") { CrearZonaScreen(viewModel = viewModel(), token = authToken, onBackClick = { navController.popBackStack() }) }
+                        composable("registrar_cita") { CrearCitaScreen(viewModel = viewModel(), token = authToken, onBackClick = { navController.popBackStack() }) }
+
+                        // --- EDICIÓN ---
+                        composable("editar_agente") {
+                            val ag = navController.previousBackStackEntry?.savedStateHandle?.get<Agente>("agente_a_editar")
+                            if (ag != null) { EditarAgenteScreen(viewModel = viewModel(), agente = ag, token = authToken, onBackClick = { navController.popBackStack() }) }
+                        }
+                        composable("editar_cliente") {
+                            val cli = navController.previousBackStackEntry?.savedStateHandle?.get< ClienteInmobiliario>("cliente_a_editar")
+                            if (cli != null) { EditarClienteScreen(viewModel = viewModel(), cliente = cli, token = authToken, onBackClick = { navController.popBackStack() }) }
+                        }
+                        composable("editar_zona") {
+                            val zona = navController.previousBackStackEntry?.savedStateHandle?.get<Zona>("zona_a_editar")
+                            if (zona != null) { EditarZonaScreen(viewModel = viewModel(), zona = zona, token = authToken, onBackClick = { navController.popBackStack() }) }
+                        }
+                        composable("editar_cita") {
+                            val cita = navController.previousBackStackEntry?.savedStateHandle?.get<Cita>("cita_seleccionada")
+                            if (cita != null) { EditarCitaScreen(viewModel = viewModel(), citaAEditar = cita, token = authToken, onBackClick = { navController.popBackStack() }) }
+                        }
                     }
                 }
             }
