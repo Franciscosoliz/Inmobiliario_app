@@ -1,4 +1,4 @@
-# 🏠 Sistema de Gestión Inmobiliaria (UteApp)
+# 🏠 Sistema de Gestión Inmobiliaria
 
 ![Android](https://img.shields.io/badge/Platform-Android-green)
 ![Kotlin](https://img.shields.io/badge/Language-Kotlin-blue)
