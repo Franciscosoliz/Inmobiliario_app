@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext // 🌟 IMPORTANTE PARA EL CONTEXTO
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,7 +30,6 @@ fun DetallePropiedadScreen(
     propiedad: Propiedad,
     onBackClick: () -> Unit
 ) {
-    // 🌟 CAPTURAMOS EL CONTEXTO ACTIVO DE LA APP AQUÍ
     val context = LocalContext.current
 
     Scaffold(
@@ -54,7 +53,6 @@ fun DetallePropiedadScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
-            // 1. Imagen Principal de la Casa
             AsyncImage(
                 model = propiedad.imagen ?: "https://via.placeholder.com/600x300.png?text=Sin+Foto",
                 contentDescription = propiedad.titulo,
@@ -64,14 +62,12 @@ fun DetallePropiedadScreen(
                 contentScale = ContentScale.Crop
             )
 
-            // Contenido con espaciado
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // 2. Encabezado: Título y Estado
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -92,7 +88,6 @@ fun DetallePropiedadScreen(
                     )
                 }
 
-                // 3. Precio Destacado
                 Text(
                     text = "$${propiedad.precio}",
                     fontSize = 26.sp,
@@ -100,7 +95,6 @@ fun DetallePropiedadScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
 
-                // 4. Ubicación Geográfica
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -119,7 +113,6 @@ fun DetallePropiedadScreen(
 
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-                // 5. Descripción Completa
                 Text(
                     text = "Descripción del Inmueble",
                     fontSize = 18.sp,
@@ -134,7 +127,6 @@ fun DetallePropiedadScreen(
 
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-                // 6. Sección del Agente Inmobiliario Asignado
                 Text(
                     text = "Asesor Encargado",
                     fontSize = 18.sp,
@@ -159,10 +151,9 @@ fun DetallePropiedadScreen(
                             Text(text = "Agente Especializado", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                         
-                        // 🌟 BOTONES CONECTADOS CON LAS ACCIONES DE ANDROID
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             FilledIconButton(
-                                onClick = { hacerLlamada(context, "+593999999999") } // 📞 Abre el marcador de llamadas
+                                onClick = { hacerLlamada(context, "+593999999999") }
                             ) {
                                 Icon(Icons.Default.Phone, contentDescription = "Llamar")
                             }
@@ -173,7 +164,7 @@ fun DetallePropiedadScreen(
                                         correo = "nicolas.paredes@ute.edu.ec", 
                                         asunto = "Interés en la propiedad: ${propiedad.titulo}"
                                     ) 
-                                } // ✉️ Abre la app de correos con datos precargados
+                                }
                             ) {
                                 Icon(Icons.Default.Email, contentDescription = "Correo")
                             }
@@ -185,7 +176,7 @@ fun DetallePropiedadScreen(
     }
 }
 
-// Funciones utilitarias (Permanecen intactas al final del archivo)
+
 fun hacerLlamada(context: Context, telefono: String) {
     try {
         val intent = Intent(Intent.ACTION_DIAL).apply {

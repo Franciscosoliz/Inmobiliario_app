@@ -13,7 +13,7 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavItem.Agentes,
         BottomNavItem.Zonas,
         BottomNavItem.Clientes,
-        BottomNavItem.Citas // 👈 Agregada aquí
+        BottomNavItem.Citas
     )
 
     NavigationBar {

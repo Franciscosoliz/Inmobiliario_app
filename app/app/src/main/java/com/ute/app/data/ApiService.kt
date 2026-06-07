@@ -8,11 +8,9 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    // 🔐 --- AUTENTICACIÓN ---
     @POST("api/token/")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
-    // 🏠 --- CRUD PROPIEDADES (CON MULTIPART PARA IMÁGENES) ---
     @GET("api/propiedades/")
     suspend fun getPropiedades(@Header("Authorization") token: String): Response<DjangoResponse<Propiedad>>
 
@@ -31,7 +29,7 @@ interface ApiService {
         @Part("area_metros") areaMetros: RequestBody,
         @Part("agente") agenteId: RequestBody,
         @Part("zona") zonaId: RequestBody,
-        @Part imagen: MultipartBody.Part? // Binario de la foto
+        @Part imagen: MultipartBody.Part?
     ): Response<Propiedad>
 
     @Multipart
@@ -50,7 +48,7 @@ interface ApiService {
         @Part("area_metros") areaMetros: RequestBody,
         @Part("agente") agenteId: RequestBody,
         @Part("zona") zonaId: RequestBody,
-        @Part imagen: MultipartBody.Part? // Opcional si no se edita la foto
+        @Part imagen: MultipartBody.Part?
     ): Response<Propiedad>
 
     @DELETE("api/propiedades/{id}/")
@@ -59,7 +57,6 @@ interface ApiService {
         @Path("id") id: Int
     ): Response<Unit>
 
-    // 📍 --- CRUD ZONAS ---
     @GET("api/zonas/")
     suspend fun getZonas(@Header("Authorization") token: String): Response<DjangoResponse<Zona>>
 
@@ -72,7 +69,6 @@ interface ApiService {
     @DELETE("api/zonas/{id}/")
     suspend fun eliminarZona(@Header("Authorization") token: String, @Path("id") id: Int): Response<Unit>
 
-    // 💼 --- CRUD AGENTES ---
     @GET("api/agentes/")
     suspend fun getAgentes(@Header("Authorization") token: String): Response<DjangoResponse<Agente>>
 
@@ -85,7 +81,6 @@ interface ApiService {
     @DELETE("api/agentes/{id}/")
     suspend fun eliminarAgente(@Header("Authorization") token: String, @Path("id") id: Int): Response<Unit>
 
-    // 👥 --- CRUD CLIENTES ---
     @GET("api/clientes/")
     suspend fun getClientes(@Header("Authorization") token: String): Response<DjangoResponse<ClienteInmobiliario>>
 
@@ -98,7 +93,6 @@ interface ApiService {
     @DELETE("api/clientes/{id}/")
     suspend fun eliminarCliente(@Header("Authorization") token: String, @Path("id") id: Int): Response<Unit>
 
-    // 📅 --- CRUD CITAS ---
     @GET("api/citas/")
     suspend fun getCitas(@Header("Authorization") token: String): Response<DjangoResponse<Cita>>
 

@@ -9,8 +9,8 @@ import kotlinx.serialization.Serializable
 data class Agente(
     val id: Int,
     val user: Int,
-    val user_detail: UserDetail? = null, // Mapea el objeto anidado por si lo necesitas después
-    val licencia_profesional: String, // 👈 Aquí está el texto "Francisco"
+    val user_detail: UserDetail? = null,
+    val licencia_profesional: String,
     val telefono: String,
     val especialidad: String,
     val activo: Boolean

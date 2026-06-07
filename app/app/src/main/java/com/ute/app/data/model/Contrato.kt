@@ -8,10 +8,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Contrato(
     val id: Int,
-    val propiedad: Int,          // ID de la propiedad (OneToOneField)
-    val cliente: Int,            // ID del cliente (Fk)
-    val tipo: String,            // 'Compraventa' o 'Arrendamiento'
-    val monto_total_final: String, // DecimalField viaja como String
-    val fecha_firma: String,     // Date de Django viaja como String ("YYYY-MM-DD")
+    val propiedad: Int,
+    val cliente: Int,
+    val tipo: String,
+    val monto_total_final: String,
+    val fecha_firma: String,
     val vigente: Boolean
 ) : Parcelable

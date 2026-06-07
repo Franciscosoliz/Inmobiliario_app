@@ -8,9 +8,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ClienteInmobiliario(
     val id: Int,
-    val nombre_completo: String, // 👈 CORREGIDO: Coincide con tu models.py
-    val identificacion: String,   // Cédula o RUC
-    val email: String,            // 👈 CORREGIDO: Volvemos a 'email' porque así está en Django
+    val nombre_completo: String,
+    val identificacion: String,
+    val email: String,
     val telefono: String,
-    val presupuesto_maximo: String? = null // Los DecimalField de Django viajan como String en el JSON
+    val presupuesto_maximo: String? = null
 ) : Parcelable

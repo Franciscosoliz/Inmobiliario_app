@@ -27,7 +27,6 @@ fun LoginScreen(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     
-    // Observamos el estado del ViewModel (LoginUiState)
     val loginState by viewModel.uiState.collectAsState()
 
     Column(
@@ -65,18 +64,15 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Manejo de estados
         when (val state = loginState) {
             is LoginUiState.Cargando -> {
                 CircularProgressIndicator(modifier = Modifier.padding(16.dp))
             }
             is LoginUiState.Exito -> {
                 LaunchedEffect(state) {
-                    // Guardamos token y rol en DataStore de forma persistente
                     tokenManager.saveUserData(state.token, state.isStaff)
                     Toast.makeText(context, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
 
-                    // 👈 CORRECCIÓN: Pasar ambos argumentos aquí
                     onLoginSuccess(state.token, state.isStaff)
                 }
             }

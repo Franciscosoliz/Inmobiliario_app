@@ -19,19 +19,19 @@ import com.ute.app.data.model.ClienteInmobiliario
 fun ClientesScreen(
     viewModel: ClienteViewModel,
     token: String,
-    isStaff: Boolean, // 👈 Control de acceso
+    isStaff: Boolean,
     onEditarClick: (ClienteInmobiliario) -> Unit,
     onAddClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var busqueda by remember { mutableStateOf("") } // 👈 Filtro
+    var busqueda by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) { viewModel.cargarClientes(token) }
 
     Scaffold(
         topBar = { TopAppBar(title = { Text("Cartera de Clientes") }) },
         floatingActionButton = {
-            if (isStaff) { // 👈 Solo staff puede agregar
+            if (isStaff) {
                 FloatingActionButton(onClick = onAddClick) {
                     Icon(Icons.Default.Add, contentDescription = "Agregar Cliente")
                 }
@@ -39,7 +39,6 @@ fun ClientesScreen(
         }
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding)) {
-            // Campo de filtrado
             OutlinedTextField(
                 value = busqueda,
                 onValueChange = { busqueda = it },
@@ -53,7 +52,6 @@ fun ClientesScreen(
                         CircularProgressIndicator(Modifier.align(Alignment.Center))
                     }
                     is ClienteUiState.Exito -> {
-                        // 👈 Filtrado de lista
                         val listaFiltrada = state.lista.filter {
                             it.nombre_completo.contains(busqueda, ignoreCase = true)
                         }
@@ -64,7 +62,7 @@ fun ClientesScreen(
                                     headlineContent = { Text(cliente.nombre_completo) },
                                     supportingContent = { Text("Tel: ${cliente.telefono} • ${cliente.email}") },
                                     trailingContent = {
-                                        if (isStaff) { // 👈 Solo staff puede editar/eliminar
+                                        if (isStaff) {
                                             Row {
                                                 IconButton(onClick = { onEditarClick(cliente) }) {
                                                     Icon(Icons.Default.Edit, "Editar")

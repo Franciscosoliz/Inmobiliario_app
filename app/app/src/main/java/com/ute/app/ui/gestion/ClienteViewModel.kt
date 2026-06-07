@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-// Estados de la UI para la pantalla de listado
 sealed class ClienteUiState {
     object Cargando : ClienteUiState()
     data class Exito(val lista: List<ClienteInmobiliario>) : ClienteUiState()
@@ -21,7 +20,6 @@ class ClienteViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<ClienteUiState>(ClienteUiState.Cargando)
     val uiState: StateFlow<ClienteUiState> = _uiState.asStateFlow()
 
-    // 1. Obtener lista
     fun cargarClientes(token: String) {
         viewModelScope.launch {
             _uiState.value = ClienteUiState.Cargando
@@ -38,7 +36,6 @@ class ClienteViewModel : ViewModel() {
         }
     }
 
-    // 2. Crear un nuevo cliente (usado en CrearClienteScreen)
     fun crearCliente(token: String, cliente: ClienteInmobiliario, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
             try {
@@ -50,7 +47,6 @@ class ClienteViewModel : ViewModel() {
         }
     }
 
-    // 3. Editar un cliente existente (usado en EditarClienteScreen)
     fun actualizarCliente(token: String, cliente: ClienteInmobiliario, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
             try {
@@ -62,7 +58,6 @@ class ClienteViewModel : ViewModel() {
         }
     }
 
-    // 4. Eliminar
     fun eliminarCliente(token: String, idCliente: Int, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
             try {

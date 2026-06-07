@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-// 1. Declaramos los estados específicos para la pantalla de zonas inmobiliarias
 sealed class ZonaUiState {
     object Cargando : ZonaUiState()
     data class Exito(val lista: List<Zona>) : ZonaUiState()
@@ -28,7 +27,6 @@ class ZonaViewModel : ViewModel() {
                 val respuesta = RetrofitClient.apiService.getZonas("Bearer $token")
 
                 if (respuesta.isSuccessful && respuesta.body() != null) {
-                    // 👈 CORREGIDO: Extraemos la lista del campo 'results'
                     val listaZonas = respuesta.body()!!.results
                     _uiState.value = ZonaUiState.Exito(listaZonas)
                 } else {

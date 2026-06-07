@@ -23,14 +23,14 @@ import com.ute.app.data.model.Propiedad
 fun PropiedadesScreen(
     viewModel: PropiedadViewModel,
     token: String,
-    isStaff: Boolean, // 👈 Control de acceso
+    isStaff: Boolean,
     onPropiedadClick: (Propiedad) -> Unit,
     onAddClick: () -> Unit,
     onEditarClick: (Propiedad) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var propiedadIdABorrar by remember { mutableStateOf<Int?>(null) }
-    var busqueda by remember { mutableStateOf("") } // 👈 Filtro
+    var busqueda by remember { mutableStateOf("") }
 
     LaunchedEffect(token) { viewModel.cargarPropiedades(token) }
 
@@ -54,13 +54,12 @@ fun PropiedadesScreen(
     Scaffold(
         topBar = { TopAppBar(title = { Text("Catálogo Inmobiliario") }) },
         floatingActionButton = {
-            if (isStaff) { // 👈 Solo staff puede agregar
+            if (isStaff) {
                 FloatingActionButton(onClick = onAddClick) { Icon(Icons.Default.Add, "Agregar") }
             }
         }
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
-            // Barra de búsqueda
             OutlinedTextField(
                 value = busqueda,
                 onValueChange = { busqueda = it },
@@ -71,7 +70,6 @@ fun PropiedadesScreen(
             when (val state = uiState) {
                 is PropiedadUiState.Cargando -> CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
                 is PropiedadUiState.Exito -> {
-                    // 👈 Filtro aplicado
                     val listaFiltrada = state.lista.filter { it.titulo.contains(busqueda, true) }
                     LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                         items(listaFiltrada) { propiedad ->
@@ -80,7 +78,7 @@ fun PropiedadesScreen(
                                 onClick = { onPropiedadClick(propiedad) },
                                 onEdit = { onEditarClick(propiedad) },
                                 onDelete = { propiedadIdABorrar = propiedad.id },
-                                isStaff = isStaff // 👈 Pasar permiso
+                                isStaff = isStaff
                             )
                         }
                     }
@@ -97,7 +95,7 @@ fun PropiedadCard(
     onClick: () -> Unit,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
-    isStaff: Boolean // 👈 Pasar permiso
+    isStaff: Boolean
 ) {
     Card(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
         Column {
@@ -108,7 +106,7 @@ fun PropiedadCard(
                         Text(text = propiedad.titulo, fontSize = 20.sp, fontWeight = FontWeight.Bold)
                         Text(text = propiedad.direccion, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
-                    if (isStaff) { // 👈 Solo staff ve botones de edición/borrado
+                    if (isStaff) {
                         Row {
                             IconButton(onClick = onEdit) { Icon(Icons.Default.Edit, "Editar", tint = MaterialTheme.colorScheme.primary) }
                             IconButton(onClick = onDelete) { Icon(Icons.Default.Delete, "Eliminar", tint = MaterialTheme.colorScheme.error) }

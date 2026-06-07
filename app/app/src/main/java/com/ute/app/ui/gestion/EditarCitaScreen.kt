@@ -18,7 +18,7 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditarCitaScreen(
-    citaAEditar: Cita, // 💡 Obligatoria, ya no es opcional ni nula
+    citaAEditar: Cita,
     viewModel: CitaViewModel,
     token: String,
     onBackClick: () -> Unit
@@ -33,7 +33,6 @@ fun EditarCitaScreen(
     val listaClientes by viewModel.clientes.collectAsState()
     val listaAgentes by viewModel.agentes.collectAsState()
 
-    // 💡 SOLUCIÓN ABSOLUTA: Congelamos los datos originales de la cita al abrir la pantalla
     val citaInicial = remember { citaAEditar }
 
     var fechaHoraIso by remember { mutableStateOf(citaInicial.fecha_hora) }

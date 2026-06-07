@@ -10,5 +10,5 @@ data class Zona(
     val id: Int,
     val nombre: String,
     val ciudad: String,
-    val codigo_postal: String? = null // 👈 Soporta nulos como tu models.py
+    val codigo_postal: String? = null
 ) : Parcelable

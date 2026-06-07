@@ -9,7 +9,6 @@ class ErrorInterceptor : Interceptor {
         val request = chain.request()
         val response = chain.proceed(request)
 
-        // Clasificación de errores según el código HTTP
         when (response.code) {
             400 -> throw IOException("Datos inválidos (Error 400)")
             401 -> throw IOException("Sesión expirada o credenciales inválidas")

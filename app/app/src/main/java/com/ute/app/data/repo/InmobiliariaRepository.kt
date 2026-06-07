@@ -11,7 +11,6 @@ class InmobiliariaRepository {
 
     private val api = RetrofitClient.apiService
 
-    // Obtener propiedades
     suspend fun obtenerPropiedades(token: String): Result<List<Propiedad>> {
         return try {
             val respuesta = api.getPropiedades("Bearer $token")
@@ -25,7 +24,6 @@ class InmobiliariaRepository {
         }
     }
 
-    // ➕ GUARDAR PROPIEDAD ADJUNTANDO IMAGEN (Soporta Crear y Editar)
     suspend fun guardarPropiedadConImagen(
         token: String,
         propiedad: Propiedad,
@@ -33,7 +31,6 @@ class InmobiliariaRepository {
         esEdicion: Boolean
     ): Result<Propiedad> {
         return try {
-            // Transformamos datos primitivos a RequestBody de texto plano para Multipart
             val tituloBody = propiedad.titulo.toRequestBody("text/plain".toMediaTypeOrNull())
             val descBody = propiedad.descripcion?.toRequestBody("text/plain".toMediaTypeOrNull())
             val tipoBody = propiedad.tipo_inmueble.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -72,7 +69,6 @@ class InmobiliariaRepository {
         }
     }
 
-    // Eliminar propiedad
     suspend fun eliminarPropiedad(token: String, id: Int): Result<Unit> {
         return try {
             val respuesta = api.eliminarPropiedad("Bearer $token", id)
@@ -82,7 +78,6 @@ class InmobiliariaRepository {
         }
     }
 
-    // Obtener catálogos secundarios
     suspend fun obtenerZonas(token: String): Result<List<Zona>> {
         return try {
             val respuesta = api.getZonas("Bearer $token")

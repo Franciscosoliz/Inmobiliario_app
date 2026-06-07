@@ -19,19 +19,19 @@ import com.ute.app.data.model.Zona
 fun ZonasScreen(
     viewModel: ZonaViewModel,
     token: String,
-    isStaff: Boolean, // 👈 Control de acceso
+    isStaff: Boolean,
     onEditarClick: (Zona) -> Unit,
     onAddClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var busqueda by remember { mutableStateOf("") } // 👈 Filtro
+    var busqueda by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) { viewModel.cargarZonas(token) }
 
     Scaffold(
         topBar = { TopAppBar(title = { Text("Zonas de Operación") }) },
         floatingActionButton = {
-            if (isStaff) { // 👈 Solo staff puede crear
+            if (isStaff) {
                 FloatingActionButton(onClick = onAddClick) {
                     Icon(Icons.Default.Add, contentDescription = "Agregar Zona")
                 }
@@ -39,7 +39,6 @@ fun ZonasScreen(
         }
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding)) {
-            // Campo de búsqueda
             OutlinedTextField(
                 value = busqueda,
                 onValueChange = { busqueda = it },
@@ -53,7 +52,6 @@ fun ZonasScreen(
                         CircularProgressIndicator(Modifier.align(Alignment.Center))
                     }
                     is ZonaUiState.Exito -> {
-                        // 👈 Filtrado de la lista
                         val listaFiltrada = state.lista.filter {
                             it.nombre.contains(busqueda, ignoreCase = true) ||
                                     it.ciudad.contains(busqueda, ignoreCase = true)
@@ -68,7 +66,7 @@ fun ZonasScreen(
                                             Text(text = "Ciudad: ${zona.ciudad}", style = MaterialTheme.typography.bodyMedium)
                                         }
 
-                                        if (isStaff) { // 👈 Solo staff puede editar/eliminar
+                                        if (isStaff) {
                                             IconButton(onClick = { onEditarClick(zona) }) {
                                                 Icon(Icons.Default.Edit, "Editar")
                                             }

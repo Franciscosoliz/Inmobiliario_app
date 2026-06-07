@@ -20,7 +20,6 @@ class CitaViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<CitaUiState>(CitaUiState.Cargando)
     val uiState: StateFlow<CitaUiState> = _uiState.asStateFlow()
 
-    // Estados independientes para alimentar los Selectores del Formulario
     private val _propiedades = MutableStateFlow<List<Propiedad>>(emptyList())
     val propiedades: StateFlow<List<Propiedad>> = _propiedades.asStateFlow()
 
@@ -46,12 +45,10 @@ class CitaViewModel : ViewModel() {
         }
     }
 
-    // Carga asíncrona de catálogos necesarios para registrar o editar una cita
     fun cargarCatalogosFormulario(token: String) {
         viewModelScope.launch {
             val authHeader = "Bearer $token"
             try {
-                // Consumimos endpoints existentes reutilizando el envoltorio de paginación DjangoResponse
                 val resProp = RetrofitClient.apiService.getPropiedades(authHeader)
                 if (resProp.isSuccessful && resProp.body() != null) {
                     _propiedades.value = resProp.body()!!.results
@@ -67,7 +64,6 @@ class CitaViewModel : ViewModel() {
                     _agentes.value = resAg.body()!!.results
                 }
             } catch (e: Exception) {
-                // Manejo silencioso o logging si falla la carga preventiva de catálogos
             }
         }
     }

@@ -19,19 +19,19 @@ import com.ute.app.data.model.Agente
 fun AgentesScreen(
     viewModel: AgenteViewModel,
     token: String,
-    isStaff: Boolean, // 👈 Control de acceso
+    isStaff: Boolean,
     onAddClick: () -> Unit,
     onEditarClick: (Agente) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var busqueda by remember { mutableStateOf("") } // 👈 Filtro
+    var busqueda by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) { viewModel.cargarAgentes(token) }
 
     Scaffold(
         topBar = { TopAppBar(title = { Text("Nuestros Agentes") }) },
         floatingActionButton = {
-            if (isStaff) { // 👈 Solo staff puede agregar
+            if (isStaff) {
                 FloatingActionButton(onClick = onAddClick) {
                     Icon(Icons.Default.Add, contentDescription = "Nuevo")
                 }
@@ -39,7 +39,6 @@ fun AgentesScreen(
         }
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding)) {
-            // Campo de búsqueda
             OutlinedTextField(
                 value = busqueda,
                 onValueChange = { busqueda = it },
@@ -51,7 +50,6 @@ fun AgentesScreen(
                 is AgenteUiState.Cargando -> Box(Modifier.fillMaxSize(), Alignment.Center) { CircularProgressIndicator() }
                 is AgenteUiState.Error -> Box(Modifier.fillMaxSize(), Alignment.Center) { Text(state.mensaje, color = MaterialTheme.colorScheme.error) }
                 is AgenteUiState.Exito -> {
-                    // 👈 Filtrado de lista
                     val listaFiltrada = state.lista.filter {
                         it.licencia_profesional.contains(busqueda, ignoreCase = true)
                     }
@@ -65,7 +63,7 @@ fun AgentesScreen(
                                         Text(text = "Tel: ${agente.telefono}", style = MaterialTheme.typography.bodyMedium)
                                     }
 
-                                    if (isStaff) { // 👈 Solo staff ve botones de gestión
+                                    if (isStaff) {
                                         IconButton(onClick = { onEditarClick(agente) }) {
                                             Icon(Icons.Default.Edit, contentDescription = "Editar")
                                         }

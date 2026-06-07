@@ -44,7 +44,6 @@ fun EditarPropiedadScreen(
     var agenteSeleccionadoId by remember { mutableStateOf<Int?>(propiedadInicial.agente) }
     var zonaSeleccionadoId by remember { mutableStateOf<Int?>(propiedadInicial.zona) }
 
-    // 📷 Si se queda nulo, Django mantendrá la imagen que ya tenía almacenada en la base de datos
     var imagenUri by remember { mutableStateOf<Uri?>(null) }
 
     var cargando by remember { mutableStateOf(false) }
@@ -69,7 +68,6 @@ fun EditarPropiedadScreen(
             OutlinedTextField(value = titulo, onValueChange = { titulo = it }, label = { Text("Título de la Propiedad *") }, modifier = Modifier.fillMaxWidth())
             OutlinedTextField(value = descripcion, onValueChange = { descripcion = it }, label = { Text("Descripción") }, modifier = Modifier.fillMaxWidth(), minLines = 2)
 
-            // Selectores Dropdown
             ExposedDropdownMenuBox(expanded = menuTipoExpandido, onExpandedChange = { menuTipoExpandido = !menuTipoExpandido }) {
                 OutlinedTextField(value = tipoInmueble, onValueChange = {}, readOnly = true, label = { Text("Tipo de Inmueble") }, trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = menuTipoExpandido) }, modifier = Modifier.menuAnchor().fillMaxWidth())
                 ExposedDropdownMenu(expanded = menuTipoExpandido, onDismissRequest = { menuTipoExpandido = false }) {
@@ -94,7 +92,6 @@ fun EditarPropiedadScreen(
 
             OutlinedTextField(value = areaMetros, onValueChange = { areaMetros = it }, label = { Text("Área (m²)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.fillMaxWidth())
 
-            // Selectores Dinámicos
             val agenteVisual = listaAgentes.find { it.id == agenteSeleccionadoId }?.licencia_profesional ?: "Seleccionar Agente *"
             ExposedDropdownMenuBox(expanded = menuAgenteExpandido, onExpandedChange = { menuAgenteExpandido = !menuAgenteExpandido }) {
                 OutlinedTextField(value = agenteVisual, onValueChange = {}, readOnly = true, label = { Text("Agente") }, trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = menuAgenteExpandido) }, modifier = Modifier.menuAnchor().fillMaxWidth())
@@ -111,7 +108,6 @@ fun EditarPropiedadScreen(
                 }
             }
 
-            // 📷 EDICIÓN DE IMAGEN MULTIMEDIA
             Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(text = "Fotografía Actual", style = MaterialTheme.typography.titleSmall)

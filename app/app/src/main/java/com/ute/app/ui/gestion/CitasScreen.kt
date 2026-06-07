@@ -19,13 +19,13 @@ import com.ute.app.data.model.Cita
 fun CitasScreen(
     viewModel: CitaViewModel,
     token: String,
-    isStaff: Boolean, // 👈 Control de acceso
+    isStaff: Boolean,
     onCrearCitaClick: () -> Unit,
     onEditarCitaClick: (Cita) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var citaIdABorrar by remember { mutableStateOf<Int?>(null) }
-    var busqueda by remember { mutableStateOf("") } // 👈 Filtro
+    var busqueda by remember { mutableStateOf("") }
 
     LaunchedEffect(token) { viewModel.cargarCitas(token) }
 
@@ -50,7 +50,7 @@ fun CitasScreen(
     Scaffold(
         topBar = { TopAppBar(title = { Text("Gestión de Citas") }) },
         floatingActionButton = {
-            if (isStaff) { // 👈 Solo staff crea citas
+            if (isStaff) {
                 FloatingActionButton(onClick = onCrearCitaClick) {
                     Icon(Icons.Default.Add, contentDescription = "Nueva Cita")
                 }
@@ -58,7 +58,6 @@ fun CitasScreen(
         }
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-            // Campo de búsqueda
             OutlinedTextField(
                 value = busqueda,
                 onValueChange = { busqueda = it },
@@ -70,7 +69,6 @@ fun CitasScreen(
                 when (val state = uiState) {
                     is CitaUiState.Cargando -> CircularProgressIndicator(Modifier.align(Alignment.Center))
                     is CitaUiState.Exito -> {
-                        // 👈 Filtrado por nombre de cliente
                         val lista = state.lista.filter {
                             it.cliente_nombre?.contains(busqueda, ignoreCase = true) == true
                         }
@@ -84,7 +82,7 @@ fun CitasScreen(
                                             Text("Cliente: ${cita.cliente_nombre ?: "N/A"}", style = MaterialTheme.typography.bodyMedium)
                                         }
 
-                                        if (isStaff) { // 👈 Solo staff puede editar/eliminar
+                                        if (isStaff) {
                                             Row {
                                                 IconButton(onClick = { onEditarCitaClick(cita) }) {
                                                     Icon(Icons.Default.Edit, "Editar", tint = MaterialTheme.colorScheme.primary)

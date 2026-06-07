@@ -41,7 +41,6 @@ fun CrearPropiedadScreen(
     var agenteSeleccionadoId by remember { mutableStateOf<Int?>(null) }
     var zonaSeleccionadoId by remember { mutableStateOf<Int?>(null) }
 
-    // 📷 Estado local de la imagen seleccionada del dispositivo
     var imagenUri by remember { mutableStateOf<Uri?>(null) }
 
     var cargando by remember { mutableStateOf(false) }
@@ -52,7 +51,6 @@ fun CrearPropiedadScreen(
     var menuAgenteExpandido by remember { mutableStateOf(false) }
     var menuZonaExpandido by remember { mutableStateOf(false) }
 
-    // Launcher multimedia nativo
     val galeriaLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? -> imagenUri = uri }
@@ -67,7 +65,6 @@ fun CrearPropiedadScreen(
             OutlinedTextField(value = titulo, onValueChange = { titulo = it }, label = { Text("Título de la Propiedad *") }, modifier = Modifier.fillMaxWidth())
             OutlinedTextField(value = descripcion, onValueChange = { descripcion = it }, label = { Text("Descripción") }, modifier = Modifier.fillMaxWidth(), minLines = 2)
 
-            // Selectores Dropdown
             ExposedDropdownMenuBox(expanded = menuTipoExpandido, onExpandedChange = { menuTipoExpandido = !menuTipoExpandido }) {
                 OutlinedTextField(value = tipoInmueble, onValueChange = {}, readOnly = true, label = { Text("Tipo de Inmueble") }, trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = menuTipoExpandido) }, modifier = Modifier.menuAnchor().fillMaxWidth())
                 ExposedDropdownMenu(expanded = menuTipoExpandido, onDismissRequest = { menuTipoExpandido = false }) {
@@ -92,7 +89,6 @@ fun CrearPropiedadScreen(
 
             OutlinedTextField(value = areaMetros, onValueChange = { areaMetros = it }, label = { Text("Área (m²)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.fillMaxWidth())
 
-            // Selectores de ID Dinámicos
             val agenteVisual = listaAgentes.find { it.id == agenteSeleccionadoId }?.licencia_profesional ?: "Seleccionar Agente *"
             ExposedDropdownMenuBox(expanded = menuAgenteExpandido, onExpandedChange = { menuAgenteExpandido = !menuAgenteExpandido }) {
                 OutlinedTextField(value = agenteVisual, onValueChange = {}, readOnly = true, label = { Text("Agente") }, trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = menuAgenteExpandido) }, modifier = Modifier.menuAnchor().fillMaxWidth())
@@ -109,7 +105,6 @@ fun CrearPropiedadScreen(
                 }
             }
 
-            // 📷 COMPONENTE DE SELECCIÓN DE IMAGEN
             Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(text = "Fotografía del Inmueble", style = MaterialTheme.typography.titleSmall)

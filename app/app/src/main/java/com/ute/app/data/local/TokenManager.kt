@@ -13,9 +13,8 @@ private val Context.dataStore by preferencesDataStore(name = "auth_prefs")
 class TokenManager(private val context: Context) {
     
     private val TOKEN_KEY = stringPreferencesKey("auth_token")
-    private val IS_STAFF_KEY = booleanPreferencesKey("is_staff") // Nueva clave
+    private val IS_STAFF_KEY = booleanPreferencesKey("is_staff")
 
-    // Guardar ambos datos a la vez
     suspend fun saveUserData(token: String, isStaff: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[TOKEN_KEY] = token
@@ -23,12 +22,10 @@ class TokenManager(private val context: Context) {
         }
     }
 
-    // Flujos para leer los datos
     val tokenFlow: Flow<String?> = context.dataStore.data.map { it[TOKEN_KEY] }
     
     val isStaffFlow: Flow<Boolean> = context.dataStore.data.map { it[IS_STAFF_KEY] ?: false }
 
-    // Limpiar sesión completa
     suspend fun clearAll() {
         context.dataStore.edit { it.clear() }
     }

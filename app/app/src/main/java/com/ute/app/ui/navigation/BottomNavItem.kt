@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.DateRange
 
 sealed class BottomNavItem(val route: String, val title: String, val icon: ImageVector) {
 
-    // 💡 Usamos parámetros nombrados para evitar cualquier confusión de tipos:
     object Propiedades : BottomNavItem(
         route = "propiedades",
         title = "Propiedades",

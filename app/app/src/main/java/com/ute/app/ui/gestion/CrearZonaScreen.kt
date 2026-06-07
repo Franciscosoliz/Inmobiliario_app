@@ -5,7 +5,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-// 1. Asegúrate de importar tus modelos y el ViewModel
 import com.ute.app.data.model.Zona
 
 @Composable
@@ -21,10 +20,8 @@ fun CrearZonaScreen(viewModel: ZonaViewModel, token: String, onBackClick: () -> 
 
         Button(
             onClick = {
-                // 2. Instanciamos con todos los campos del modelo
                 val nuevaZona = Zona(id = 0, nombre = nombre, ciudad = ciudad, codigo_postal = codPostal)
 
-                // 3. Llamamos al método que definimos en el ViewModel (crearZona)
                 viewModel.crearZona(token, nuevaZona) { exito ->
                     if (exito) onBackClick()
                 }

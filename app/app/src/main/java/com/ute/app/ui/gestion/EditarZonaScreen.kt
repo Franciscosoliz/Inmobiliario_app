@@ -9,7 +9,6 @@ import com.ute.app.data.model.Zona
 
 @Composable
 fun EditarZonaScreen(zona: Zona, viewModel: ZonaViewModel, token: String, onBackClick: () -> Unit) {
-    // Inicializamos con los valores del objeto recibido
     var nombre by remember { mutableStateOf(zona.nombre) }
     var ciudad by remember { mutableStateOf(zona.ciudad) }
     var codPostal by remember { mutableStateOf(zona.codigo_postal ?: "") }
@@ -38,14 +37,12 @@ fun EditarZonaScreen(zona: Zona, viewModel: ZonaViewModel, token: String, onBack
 
         Button(
             onClick = {
-                // Usamos .copy() para mantener el ID original de la zona
                 val zonaEditada = zona.copy(
                     nombre = nombre,
                     ciudad = ciudad,
                     codigo_postal = codPostal
                 )
 
-                // Llamamos a la función específica de actualización
                 viewModel.actualizarZona(token, zonaEditada) { exito ->
                     if (exito) onBackClick()
                 }

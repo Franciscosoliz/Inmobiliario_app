@@ -146,14 +146,12 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        // --- REGISTRO ---
                         composable("registrar_propiedad") { CrearPropiedadScreen(viewModel = viewModel(), token = authToken, onBackClick = { navController.popBackStack() }) }
                         composable("registrar_agente") { CrearAgenteScreen(viewModel = viewModel(), token = authToken, onBackClick = { navController.popBackStack() }) }
                         composable("registrar_cliente") { CrearClienteScreen(viewModel = viewModel(), token = authToken, onBackClick = { navController.popBackStack() }) }
                         composable("registrar_zona") { CrearZonaScreen(viewModel = viewModel(), token = authToken, onBackClick = { navController.popBackStack() }) }
                         composable("registrar_cita") { CrearCitaScreen(viewModel = viewModel(), token = authToken, onBackClick = { navController.popBackStack() }) }
 
-                        // --- EDICIÓN ---
                         composable("editar_agente") {
                             val ag = navController.previousBackStackEntry?.savedStateHandle?.get<Agente>("agente_a_editar")
                             if (ag != null) { EditarAgenteScreen(viewModel = viewModel(), agente = ag, token = authToken, onBackClick = { navController.popBackStack() }) }

@@ -22,12 +22,10 @@ fun CrearAgenteScreen(viewModel: AgenteViewModel, token: String, onBackClick: ()
             OutlinedTextField(value = especialidad, onValueChange = { especialidad = it }, label = { Text("Especialidad") }, modifier = Modifier.fillMaxWidth())
 
             Button(onClick = {
-                // IMPORTANTE: 'user = 1' es un ejemplo. Si el servidor espera el usuario logueado,
-                // asegúrate de enviar el ID correcto.
                 val nuevoAgente = Agente(
                     id = 0,
-                    user = 1, // Verifica que este ID exista en tu tabla de usuarios de Django
-                    user_detail = null, // 👈 Pasamos null explícitamente
+                    user = 1,
+                    user_detail = null,
                     licencia_profesional = licencia,
                     telefono = telefono,
                     especialidad = especialidad,
